@@ -4,9 +4,9 @@
 int main(void)
 {
 	FILE *eutf8 = fopen("utf8_peq.txt", "r");
-	FILE *evar = fopen("var_peq.txt", "r");
+	FILE *evar = fopen("var_peq", "r");
 	FILE *sutf8 = fopen("utf8_saida.txt", "w");
-	FILE *svar = fopen("var_saida.txt", "w");
+	FILE *svar = fopen("var_saida", "w");
 	utf2varint(eutf8, svar);
 	varint2utf(evar, sutf8);
 	fclose(eutf8);

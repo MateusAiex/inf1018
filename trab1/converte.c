@@ -20,7 +20,7 @@ int conta_bytes(char c)
 		return 2;
 	}
 	// 0xxxxxxx
-	else if ((c & 0x80) == 0x00)
+	else
 	{
 		return 1;
 	}
@@ -34,7 +34,12 @@ int utf2varint(FILE *arq_entrada, FILE *arq_saida)
 		int bytes = conta_bytes(c);
 		for (; bytes > 0; bytes--)
 		{
-			if (fwrite(&c, sizeof(char), 1, arq_saida) 
+			if (fwrite(&c, sizeof(c), 1, arq_saida) != 1)
+			{
+				fprintf(stderr, "ERROR DE ESCRITA\n");
+				return 1;
+			}
+			c = fgetc(arq_entrada);
 		}
 	}
 

@@ -1,0 +1,12 @@
+2-  xorl  %eax, %eax - Zerei o %eax antes do for.
+    addl  (%r12), %eax - Adiciona o valor de %r12 em %eax.
+    Coloquei o script do print depois do for.
+
+3-  andl  $1, %eax - fiz um and bit a bit com 1 e %eax e armazenei no %eax.
+    cmpl  $0, %eax - comparei o %eax com 0.
+    jne  L3 - se for diferente de 0, vai para L3 e pula o print.
+    O L3 está o incremento do for.
+
+4-  nums:  .byte  10, -21, -30, 45 - troquei de .int para .byte.
+    movsbl  (%r12), %eax - movi o e aumentei o tamanho para o %eax que é o registrador que será usado no print.
+    addq  $1, %r12 - adicionei 1 ao r12 pois 1 é o tamanho de um byte e r12 é um endereço de memória.

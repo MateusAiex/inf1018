@@ -1,0 +1,15 @@
+1-  movq  $s1, %rdi - movi a string s1 para o 1° parâmetro
+    call  system    - chamei a função system
+
+2-  xorl    %ebx, %ebx - zerei o ebx, que irá representar a variável i
+    movq    $nums, %r12 - movi o vetor nums para o registrador %r12
+    cmpl    $5, %ebx / jge     L2 - comparo o ebx com 5, se for maior ou igual, pule para L2
+    movl    (%r12), %edi - coloquei o primeiro elemento do vetor nums no registrador %edi, que é o primeiro parâmetro da função filtro
+    movl    $1, %esi - movi o valor 1 para o registrador %esi, que é o segundo parâmetro da função filtro
+    call    filtro - chamei a função filtro
+    movl    %eax, %esi - movi o valor de retorno da função filtro para o registrador %esi, que é o segundo parâmetro da função printf
+    movq    $SF, %rdi - movi a string SF para o registrador %rdi, que é o primeiro parâmetro da função printf
+    call    printf - chamei a função printf
+    addq    $4, %r12 - adicionei 4 ao registrador %r12 para fazer p++; já que nums é um vetor de inteiros.
+    incl    %ebx - incrementei o ebx, que é a variável i
+    jmp     L1 - pulei para L1

@@ -1,0 +1,33 @@
+﻿1-a- O tamanho de um inteiro é 4 bytes e está ordenado na forma de little endian.
+O long tem 8 bytes.
+O short 2 bytes.
+O char 1 byte.
+Uma string é armazenada com o menor endereço de memória sendo o primeiro caractere e o maior endereço de memória o \0.
+‘A’ = 65
+‘,’ = 44
+‘\n’ = 10
+‘$’ = 36
+
+
+2-a- A função está pegando os códigos numéricos da tabela ASCII e convertendo para número na base 10.
+(*s - ‘0’) será o número convertido que está armazenado no s[0].
+O valor de a será a multiplicado pela base + o caractere convertido.
+
+
+modifiquei o for da função string2num:
+int string2num (char *s, int b) {
+    int a = 0;
+    for (; *s; s++) {
+        if ((*s >= '0') && (*s <= '9'))
+        {
+            a = a * b + (*s - '0');
+        }
+        else{
+            a = a * b + (*s - 'a' + 10);
+        }
+    }
+    return a;
+}
+
+
+37 seria a maior base que podemos representar.

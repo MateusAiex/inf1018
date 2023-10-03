@@ -1,0 +1,10 @@
+1 - Para obter o byte menos significativo de x e os outros bits em 0:
+y = x & 0xff;
+
+Para obter o byte mais significativo com todos os bits em '1' e os outros bytes com o mesmo valor dos bytes de x:
+z = x | 0xff000000;
+
+2 - Usei n1 += (x >> i) & 0x1 para contar quantos bits 1 existem em x e return n1 & 0x1; para verificar se o número de bits 1 é par ou ímpar.
+
+3- Usei return (x << 4) | (x >> 4); para trocar as metades de um byte.
+Usei return (x << n) | (x >> (8 - n)); para rodar n bits à esquerda, sendo q n é um valor entre 1 e 7.

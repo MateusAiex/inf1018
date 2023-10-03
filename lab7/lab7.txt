@@ -1,0 +1,21 @@
+2-  cmpb  $123, (%r12) / je  L2 - Comparei { com o (%r12) e se ele for pular para o próximo loop.
+    cmpb  $125, (%r12) / je    L3 - Comparei } com o (%r12) e se ele for pular para próximo loop.
+    
+3-  Sf:  .string "%d\n" - criei a string para o print.
+    xorl  %r12d, %r12d - zerando o r12d.
+    cmpl  $10, %r12d / jg  L2 - Comparei o r12d com 10 e se ele for maior que 10 sair do loop para o L2.
+    movl  %r12d, %eax - movi o valor de r12d para o eax.
+    imull     %eax, %eax - multipliquei o eax por ele mesmo e chamei o print.
+    addl  $1, %r12d - somei 1 no r12d.
+    jmp  L1 - pulei para o próximo loop.
+    
+4-  xorl    %r12d, %r12d - zerando o r12d.
+    xorl    %eax, %eax - zerando o eax.
+    movq    $nums, %r10 - movi o vetor nums para o r10.
+    cmpl $4, %r12d / jge L2 - Comparei o r12d com 4 e se ele for maior ou igual a 4 sair do loop para o L2.
+    movl %r12d, %ecx - movi o valor de r12d para o ecx que é meu registrador auxiliar.
+    shl  $2, %ecx - multipliquei o ecx por 4.
+    addq  %r10, %rcx - somei o r10 com o ecx e o rcx será o nums[i].
+    addl  (%rcx), %eax - somei o valor de rcx com o eax que é o somatório.
+    addl  $1, %r12d - somei 1 no r12d para a interação do loop.
+    jmp  L1 - pulei para o próximo loop.

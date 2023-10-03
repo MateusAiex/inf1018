@@ -1,0 +1,14 @@
+1-  sizeof(b) = 2 * 4: b[0] b[0] b[0] b[0] b[1] b[1] b[1] b[1]
+
+    sizeof(a) = 2 * 3 * 2: a[0][0] a[0][0] a[0][1] a[0][1] a[0][2] a[0][2] a[1][0] a[1][0] a[1][1] a[1][1] a[1][2] a[1][2]
+
+2-  O "Buraco" é os paddings necessários para alinhar os elementos do array na memória.
+
+3- a-	sizeof(X1) = 1 + 3 + 4 + 1 + 3 = 12: c1 P P P i i i i c2 P P P
+		sizeof(X2) = 8 + 1 + 7 = 16: l l l l l l l l c P P P P P P P
+		sizeof(X3) = 4 + 1 + 1 + 2 = 8: i i i i c1 c2 P P
+		sizeof(X4) = 16 + 1 + 7 = 24: l l l l l l l l c P P P P P P P c P P P P P P P
+		sizeof(X5) = 1 + 1 + 1 = 3: c1 c2 c3
+		sizeof(X6) = 2 + 2 + 4 + 3 + 1 + 2 + 2 = 16: s1 s1 P P i i i i c[0] c[1] c[2] P s2 s2 P P
+		sizeof(U1) = 4 + 1 + 3 = 8: i/c[0] i/c[1] i/c[2] i/c[3] c[4] P P P
+		sizeof(U2) = 5 + 1 = 6: s/c[0] s/c[1] c[2] c[3] c[4] P

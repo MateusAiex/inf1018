@@ -1,0 +1,39 @@
+1-  addl    (%rdi), %eax - já que o val é o primeiro elemento da struct podemos acessá-lo diretamente pegando o conteúdo da memória que o resgistrador está apontado.
+    # x = x->next:
+    movq    8(%rdi), %rdi - pegamos o endereço do segundo elemento da struct descontando o primeiro elemento e os padings.
+
+2-  #   else return x->val + add2(x->next);
+    movq    %rdi, -8(%rbp) - salvamos o primeiro parâmetro da função na pilha.
+    movq    8(%rdi), %rdi - pegamos o segundo elemento da struct e colocamos no registrador do primeiro parâmetro. 
+    call    add - chamamos a função add.
+    movq    -8(%rbp), %rdi - restauramos o valor de %rdi.
+    addl    (%rdi), %eax - somamos o valor do primeiro elemento da struct com o valor retornado da função add.
+
+3-  #     px->val2 = f(px->val1, val);
+    movq    %rdi, -8(%rbp) - salvamos o primeiro parâmetro da função na pilha.
+    movl    %esi, -12(%rbp) - salvamos o segundo parâmetro da função na pilha.
+    movl    %edx, -16(%rbp) - salvamos o terceiro parâmetro da função na pilha.
+    movl    (%rdi), %edi - pegamos o primeiro elemento da struct e colocamos no registrador do primeiro parâmetro.
+    movl    %edx, %esi  - colocamos o terceiro parâmetro no registrador do segundo parâmetro.
+    call    f - chamamos a função f.
+    movq    -8(%rbp), %rdi - restauramos o valor de %rdi.
+    movl    -12(%rbp), %esi - restauramos o valor de %esi.
+    movl    -16(%rbp), %edx - restauramos o valor de %edx.
+    movl    %eax, 4(%rdi) - colocamos o valor retornado da função f no segundo elemento da struct.
+
+4-  #     *(outro+i) = f(*(um+i));
+    movl    %r12d, %r13d - move o valor de %r12d para %r13d.
+    shll    $2, %r13d - multiplica o valor de %r13d por 4.
+    
+    movq    %rdi, -24(%rbp) - salvamos o primeiro parâmetro da função na pilha.
+    movq    %rsi, -32(%rbp) - salvamos o segundo parâmetro da função na pilha.
+    movl    %edx, -36(%rbp) - salvamos o terceiro parâmetro da função na pilha.
+    addq    %r13, %rdi - somamos o valor de %r13 com o valor de %rdi.
+    movl    (%rdi), %edi - movemos o conteúdo do endereço de %rdi para %edi.
+    call    f - chamamos a função f.
+    movq    -24(%rbp), %rdi - restauramos o valor de %rdi.
+    movq    -32(%rbp), %rsi - restauramos o valor de %rsi.
+    movl    -36(%rbp), %edx - restauramos o valor de %edx.
+
+    addq    %rsi, %r13 - somamos o valor de %rsi com o valor de %r13.
+    movl    %eax, (%r13) - movemos o valor retornado da função f para o conteúdo do endereço de %r13.

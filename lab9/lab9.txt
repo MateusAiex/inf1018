@@ -1,0 +1,18 @@
+1-  movl    %edi, %eax - movi o valor de edi para eax.
+    addl    %esi, %eax - soma o valor de esi com eax.
+    addl    %edx, %eax - soma o valor de edx com eax.
+    não abri o Ra, pois não usei nenhum registrador callee-saved e também não precisei guardar o valor de nenhum registrador.
+
+2-  subq    $16 , %rsp - abri 16bytes no RA para armazenar o %edi quanto for chamar a fat.
+    cmpl    $0, %edi/jne     L2 - compara o valor de edi com 0, se for diferente de 0, vai para L2 (não entrou no if).
+    movl    $1, %eax - movi o valor 1 para eax e retornei com leave e ret.
+    No L2:
+    movl    %edi, -4(%rbp) - movi o valor de edi para o Ra na pocição -4(%rbp).
+    decl    %edi - decrementa o valor de edi.
+    call    fat - chama a fat com o parâmetro n-1 que foi feito anteriormente.
+    movl    -4(%rbp), %edi - restaurei o valor de edi.
+    imull   %edi, %eax - multipliquei o valor de edi com eax (valor de retorno de fat(n-1)), e de pois retornei com leave e ret.
+
+3-  Não precisei abrir o RA, pois essa função não chama nenhuma outra função e por isso posso usar registradores caller-saved que eles não vão ser modificados.
+    usei o r10d para ser a variável i, o r11d para ser a variável s e o r9 para ser a variável auxiliar para fazer a indexação do vetor.
+    

@@ -18,12 +18,12 @@ int main(void)
 	FILE *evar = fopen("var_peq", "r");
 	FILE *sutf8 = fopen("utf8_saida.txt", "w");
 
-	FILE *e2var = fopen("var_demo", "r");
-	FILE *s2utf8 = fopen("utf8_saida2.txt", "w");
-	
 	varint2utf(evar, sutf8);
 
-	varint2utf(e2var, s2utf8);
+	FILE *e2var = fopen("var_demo", "r");
+	FILE *s2utf8 = fopen("utf8_saida2.txt", "w");
+
+	printf("%d\n", varint2utf(e2var, s2utf8));
 
 	//fechando arquivos:
 	fclose(eutf8);

@@ -1,0 +1,15 @@
+Mateus Aiex Silveira Freire - 2011936 - 33A
+
+
+UTF8 para Varint:
+    Não encontrei nenhum erro.
+    Testei com os arquivos de exemplo e comparando os arquivos varint de exemplo.
+    Testei em situações críticas, como arquivo vazio, com apenas uma letra que não precisa de conversão para varint.
+
+Varint para UTF8:
+    Tive erro em converter o arquivo grande de Varint, pois no meio do arquivo tem um caracter 0xFF que é o mesmo valor de EOF, e com isso minha função endente como fim do arquivo.
+    Porém, até onde ele converte certo comparando com o UTF8_demo.txt.
+    O teste com um var_peq deu certo.
+    Testes com arquivo vazio deu certo.
+    Teste com arquivo contendo apenas 1 caractere, mas com tamanhos diferentes também deram certo.
+

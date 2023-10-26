@@ -1,3 +1,5 @@
+/*Mateus Aiex Silveira Freire 2011936 33A*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "converte.h"
@@ -165,7 +167,114 @@ int utf2varint(FILE *arq_entrada, FILE *arq_saida)
 	return 0;
 }
 
+/*
+Função para limpar os bits de controle de um varint.
+*/
+i_c limpa_varint(i_c u)
+{
+	i_c aux;
+	aux.i = 0;
+	for (int i = 0; i < 4; i++)
+	{
+		if (u.c[i] != 0)
+		{
+			// operações para zerar o 1 bit de controle de u.c[i]
+			u.c[i] = u.c[i] << 1;
+			u.c[i] = u.c[i] >> 1;
+			// desloca para comportar o byte u.c[i]
+			aux.i = aux.i << 7;
+			// insere o byte u.c[i] em aux
+			aux.i += u.c[i];
+		}
+	}
+	return aux;
+}
+
+/*
+Função para converter um número para o formato UTF-8 em big-endian.
+*/
+i_c conv_utf8(i_c u)
+{
+	i_c aux;
+	aux.i = 0;
+	// U+0000 a U+007F
+	if (u.i < 0x80)
+	{
+		return u;
+	}
+	// U+0080 a U+07FF
+	else if (u.i < 0x800)
+	{
+		aux.c[1] = (u.c[0] & 0x3f) | 0x80;
+		aux.c[0] = ((u.c[1] << 2) | 0xc0) + (u.c[0] >> 6);
+		return aux;
+	}
+	// U+0800 a U+FFFF
+	else if (u.i < 0x10000)
+	{
+		aux.c[2] = (u.c[0] & 0x3f) | 0x80;
+		aux.c[1] = (((u.c[1] << 2) + (u.c[0] >> 6)) & 0x3f) | 0x80;
+		aux.c[0] = ((u.c[2] << 4) | 0xe0) + (u.c[1] >> 4);
+		return aux;
+	}
+	// U+10000 a U+10FFFF
+	else
+	{
+		aux.c[3] = (u.c[0] & 0x3f) | 0x80;
+		aux.c[2] = (((u.c[1] << 2) + (u.c[0] >> 6)) & 0x3f) | 0x80;
+		aux.c[1] = (((u.c[2] << 4) + (u.c[1] >> 4)) & 0x3f) | 0x80;
+		aux.c[0] = ((u.c[3] << 6) | 0xf0) + (u.c[2] >> 2);
+		return aux;
+	}
+}
+
+/*
+Função para converter um arquivo varint para o formato UTF-8.
+*/
 int varint2utf(FILE *arq_entrada, FILE *arq_saida)
 {
+	i_c c;
+	c.i = 0;
+	c.c[0] = fgetc(arq_entrada);
+	if (ferror(arq_entrada))
+	{
+		fprintf(stderr, "Erro na leitura do arquivo\n");
+		return -1;
+	}
+
+	// EOF é representado por -1, por isso é necessário o cast
+	while (((char)c.c[0]) != EOF)
+	{
+		// pegando o varint em big-endian
+		while (c.c[0] & 0x80)
+		{
+			c.i = c.i << 8;
+			c.c[0] = fgetc(arq_entrada);
+			if (ferror(arq_entrada))
+			{
+				fprintf(stderr, "Erro na leitura do arquivo\n");
+				return -1;
+			}
+		}
+
+		c = limpa_varint(c);
+		c = conv_utf8(c);
+		int b = conta_bytes_utf8(c.c[0]);
+		// insere b bytes no arquivo, começando por c.c[0]
+		if(fwrite(&c.c[0], sizeof(c.c[0]), b, arq_saida) != b)
+		{
+			fprintf(stderr, "Erro na escrita do arquivo\n");
+			return -1;
+		}
+		
+		// zera a variável para o próximo loop
+		c.i = 0;
+		c.c[0] = fgetc(arq_entrada);
+		if (ferror(arq_entrada))
+		{
+			fprintf(stderr, "Erro na leitura do arquivo\n");
+			return -1;
+		}
+	}
 	return 0;
 }

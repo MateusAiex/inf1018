@@ -1,0 +1,12 @@
+1-  movq    $sf2, %rdi - movi a string para o primeiro parâmetro.
+    leaq    -4(%rbp), %rsi - usei o leaq para mover o endereço de memória para o segundo parâmetro.
+    call    scanf - chamei a scanf.
+
+2-  leaq    -16(%rbp), %r10 - r10 adotei como a variável a e fiz a = local.
+    xorl    %r11d, %r11d - i = 0.
+    movl    %edi, (%r10) - movi o primeiro parâmetro para o conteúdo apontado pelo endereço contido no r10.
+    addq    $4, %r10 - a++
+    incl    %r11d - i++
+    leaq    -16(%rbp), %rdi - movi o endereço de memória de local para o primeiro parâmetro.
+    movl    $4, %esi - movi o 4 para o segundo parâmetro
+    call    addl - chamei addl.

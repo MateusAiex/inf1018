@@ -1,0 +1,16 @@
+1-  Pilha:
+            32 bytes do array
+            8 bytes do %rbp antigo
+            8 bytes do endereço da função chamadora
+    
+2-  Pilha:
+            32 bytes do array
+            8 bytes do %rbp da danger
+            8 bytes do endereço da função chamadora (dereverá ser o enderço da danger)
+            8 bytes do endereço da função smoke
+
+3-  Pilha
+            32 bytes com os primeiros sendo o código das instruções mov e ret.
+            8 bytes do %rbp da getbuf
+            8 bytes do endereço de buf
+            8 bytes da do endereço de fizz
